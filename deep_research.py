@@ -2,6 +2,9 @@ import gradio as gr
 from dotenv import load_dotenv
 from research_manager import ResearchManager
 import asyncio
+import PyPDF2
+import docx
+from document_utils import extract_text_from_files
 
 load_dotenv(override=True)
 
@@ -10,10 +13,10 @@ def get_questions(query):
     clarifying = asyncio.run(ResearchManager().get_clarifying_questions(query))
     return clarifying.questions
 
-# Step 2: Run full research with clarifications
-async def run_full(query, a1, a2, a3, a4):
+# Step 2: Run full research with clarifications and files
+async def run_full(query, a1, a2, a3, a4, files):
     answers = [a for a in [a1, a2, a3, a4] if a]
-    async for chunk in ResearchManager().run_full(query, answers):
+    async for chunk in ResearchManager().run_full(query, answers, files):
         yield chunk
 
 with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
@@ -30,6 +33,7 @@ with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
     report = gr.Markdown(label="Report")
     state_query = gr.State()
     state_questions = gr.State()
+    file_upload = gr.Files(label="Attach documents (PDF, DOCX, TXT)", file_types=[".pdf", ".docx", ".txt"])
 
     def show_questions(query):
         questions = get_questions(query)
@@ -51,7 +55,7 @@ with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
 
     submit_button.click(
         fn=run_full,
-        inputs=[query_textbox, answer1, answer2, answer3, answer4],
+        inputs=[query_textbox, answer1, answer2, answer3, answer4, file_upload],
         outputs=report,
     )
 

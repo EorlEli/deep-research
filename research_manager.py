@@ -4,6 +4,7 @@ from planner_agent import planner_agent, WebSearchItem, WebSearchPlan
 from writer_agent import writer_agent, ReportData
 from email_agent import email_agent
 from clarifying_agent import clarifying_agent, ClarifyingQuestions
+from document_utils import extract_text_from_files
 import asyncio
 
 class ResearchManager:
@@ -16,12 +17,16 @@ class ResearchManager:
         )
         return result.final_output_as(ClarifyingQuestions)
 
-    async def run_full(self, query: str, clarifications: list[str]):
-        """Run the full research process after clarifications are provided."""
+    async def run_full(self, query: str, clarifications: list[str], files=None):
+        """Run the full research process after clarifications are provided, with optional document files."""
         trace_id = gen_trace_id()
         with trace("Research trace", trace_id=trace_id):
             yield f"View trace: https://platform.openai.com/traces/trace?trace_id={trace_id}"
             print("Starting research...")
+            doc_texts = []
+            if files:
+                doc_texts = extract_text_from_files(files)
+                yield f"Extracted document text: {doc_texts}"
             # Combine query and clarifications for planning
             combined = f"Query: {query}\nClarifications: {clarifications}"
             search_plan = await self.plan_searches(combined)
