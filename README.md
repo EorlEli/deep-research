@@ -122,8 +122,7 @@ deep_research/
 
 ## License
 
-MIT (or your chosen license)
-
+MIT 
 ---
 
 ## Acknowledgments
