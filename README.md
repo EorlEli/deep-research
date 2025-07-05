@@ -27,7 +27,7 @@ All of this is done through a simple web interface.
 
 1. **Clone the repository:**
    ```sh
-   git clone <your-repo-url>
+   git clone https://github.com/EorlEli/deep-research.git
    cd deep_research
    ```
 
@@ -97,6 +97,7 @@ graph TD
 
 - **Email sending:**  
   Edit `email_agent.py` to set your sender and recipient email addresses.
+  The email agent sends notifications from the author's push notification email to another author's email address by default. **You should change both the sender and recipient addresses in `email_agent.py` to your own, so that I do not receive other people's reports in ny email inbox :-).**
 - **Number of clarifying questions:**  
   The clarifying agent generates up to 4 questions by default.
 
