@@ -120,10 +120,6 @@ deep_research/
 
 ---
 
-## License
-
-MIT 
----
 
 ## Acknowledgments
 
