@@ -6,8 +6,7 @@
 - Asks clarifying questions about your research topic,
 - Plans relevant web searches,
 - Gathers and summarizes information,
-- Writes a detailed report,
-- And emails the report to you.
+- And emails the information to you.
 
 All of this is done through a simple web interface.
 
